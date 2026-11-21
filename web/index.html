@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big garages, walkable streets</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="panel" aria-label="Filters and results">
+    <header class="panel-head">
+      <h1>Big garages, walkable streets</h1>
+      <p class="lede">Every King County house with room for three cars or more, set against what you can reach on foot.</p>
+    </header>
+
+    <section class="filters" aria-label="Filters">
+      <div class="field">
+        <div class="field-top">
+          <label for="f-space">Garage space</label>
+          <output id="o-space" for="f-space"></output>
+        </div>
+        <input type="range" id="f-space" min="600" max="1800" step="50" value="900">
+        <div class="ticks" aria-hidden="true">
+          <span style="--t:0.0417">3-car</span>
+          <span style="--t:0.25">4-car</span>
+          <span style="--t:0.5">RV size</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="f-walk">Walkability</label>
+          <output id="o-walk" for="f-walk"></output>
+        </div>
+        <input type="range" id="f-walk" min="0" max="100" step="5" value="70">
+        <div class="ticks" aria-hidden="true">
+          <span style="--t:0.5">some</span>
+          <span style="--t:0.7">most</span>
+          <span style="--t:0.9">all errands</span>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>More filters</summary>
+        <div class="field">
+          <div class="field-top">
+            <label for="f-liv">House size</label>
+            <output id="o-liv" for="f-liv"></output>
+          </div>
+          <input type="range" id="f-liv" min="0" max="6000" step="100" value="0">
+        </div>
+        <div class="field">
+          <div class="field-top">
+            <label for="f-val">County appraisal</label>
+            <output id="o-val" for="f-val"></output>
+          </div>
+          <input type="range" id="f-val" min="500" max="5050" step="50" value="5050">
+        </div>
+        <div class="field">
+          <div class="field-top">
+            <label for="f-lot">Lot size</label>
+            <output id="o-lot" for="f-lot"></output>
+          </div>
+          <input type="range" id="f-lot" min="0" max="40000" step="1000" value="0">
+        </div>
+        <label class="check"><input type="checkbox" id="f-shop"> Count detached shops and barns as garage space</label>
+        <button type="button" class="link-btn" id="reset">Reset filters</button>
+      </details>
+    </section>
+
+    <section class="results" id="results" aria-live="polite">
+      <div class="count">
+        <span class="count-n" id="count-n">…</span>
+        <span class="count-t" id="count-t">Loading houses</span>
+      </div>
+      <div class="sort">
+        <label for="sort">Sort by</label>
+        <select id="sort">
+          <option value="walk">Most walkable</option>
+          <option value="space">Biggest garage</option>
+          <option value="val">Lowest appraisal</option>
+          <option value="liv">Biggest house</option>
+        </select>
+      </div>
+      <div class="list" id="list"></div>
+      <p class="list-more" id="list-more" hidden></p>
+    </section>
+
+    <section class="detail" id="detail" hidden aria-live="polite"></section>
+
+    <footer class="panel-foot">
+      <p id="notes"></p>
+    </footer>
+  </aside>
+
+  <main class="map-wrap">
+    <div id="map" aria-label="Map of houses and walkability"></div>
+
+    <div class="layers" aria-label="Map layers">
+      <label class="check"><input type="checkbox" id="l-walk" checked> Walkability shading</label>
+      <label class="check"><input type="checkbox" id="l-places" checked> Shops, cafés and parks <span class="hint" id="places-hint">zoom in</span></label>
+      <label class="check"><input type="checkbox" id="l-rail"> Light rail stations</label>
+      <fieldset class="base">
+        <legend>Street map</legend>
+        <label class="check"><input type="radio" name="base" value="light" checked> Light</label>
+        <label class="check"><input type="radio" name="base" value="streets"> Streets</label>
+        <label class="check"><input type="radio" name="base" value="aerial"> Aerial</label>
+      </fieldset>
+    </div>
+
+    <div class="legend" aria-label="Legend">
+      <div class="legend-title">Walkability <span class="legend-read" id="read"></span></div>
+      <div class="legend-ramp">
+        <span><i style="background:var(--walk-1)"></i>30</span>
+        <span><i style="background:var(--walk-2)"></i>50</span>
+        <span><i style="background:var(--walk-3)"></i>70</span>
+        <span><i style="background:var(--walk-4)"></i>90+</span>
+      </div>
+      <div class="legend-title">Garage space, sq ft</div>
+      <div class="legend-dots">
+        <span><i class="dot d1"></i>600</span>
+        <span><i class="dot d2"></i>900</span>
+        <span><i class="dot d3"></i>1,200+</span>
+      </div>
+    </div>
+
+    <div class="tip" id="tip" hidden></div>
+  </main>
+</div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="data/meta.js"></script>
+<script src="data/grid.js"></script>
+<script src="data/places.js"></script>
+<script src="data/homes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

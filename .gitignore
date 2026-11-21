@@ -1,0 +1,4 @@
+# downloaded and intermediate data (rebuild with the scripts)
+data/raw/
+data/work/
+__pycache__/
