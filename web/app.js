@@ -11,8 +11,11 @@
   }
   var N = H.lat.length;
   var LIST_MAX = 250;
-  var HOUSE = '#eb6834', INK = '#1b2430';
-  var WALK_COLORS = [[205, 226, 251], [134, 182, 239], [57, 135, 229], [24, 79, 149]]; // 30, 50, 70, 90+
+  var HOUSE = '#2a78d6', INK = '#1b2430';
+  // walkability classes 30, 50, 70, 90+: warm ramp, more walkable = redder and more solid,
+  // so it reads over aerial photos as well as over the light street map
+  var WALK_COLORS = [[255, 224, 130], [255, 179, 71], [249, 118, 43], [216, 27, 42]];
+  var WALK_ALPHA = [125, 165, 200, 230];
   var DEFAULTS = { space: 900, walk: 70, liv: 0, val: 5050, lot: 0, shop: false, sort: 'walk' };
 
   // ---------------------------------------------------------------- helpers
@@ -106,12 +109,12 @@
     for (var k = 0; k < gridBytes.length; k++) {
       var v = gridBytes[k];
       if (v === 255 || v < 30) continue;
-      var col = WALK_COLORS[v >= 90 ? 3 : v >= 70 ? 2 : v >= 50 ? 1 : 0];
-      d[k * 4] = col[0]; d[k * 4 + 1] = col[1]; d[k * 4 + 2] = col[2]; d[k * 4 + 3] = 255;
+      var ci = v >= 90 ? 3 : v >= 70 ? 2 : v >= 50 ? 1 : 0, col = WALK_COLORS[ci];
+      d[k * 4] = col[0]; d[k * 4 + 1] = col[1]; d[k * 4 + 2] = col[2]; d[k * 4 + 3] = WALK_ALPHA[ci];
     }
     ctx.putImageData(img, 0, 0);
     return L.imageOverlay(c.toDataURL('image/png'), [[GRID.south, GRID.west], [GRID.north, GRID.east]],
-      { opacity: 0.62, interactive: false });
+      { opacity: 0.85, interactive: false });
   })();
   var gx0 = mercX(GRID.west), gx1 = mercX(GRID.east), gy0 = mercY(GRID.north), gy1 = mercY(GRID.south);
   function walkAt(latlng) {
@@ -218,7 +221,7 @@
   }
   map.on('moveend zoomend resize', draw);
   // let the street map show through as you zoom in
-  function fadeWalk() { var z = map.getZoom(); walkLayer.setOpacity(z >= 15 ? 0.3 : z >= 13 ? 0.46 : 0.62); }
+  function fadeWalk() { var z = map.getZoom(); walkLayer.setOpacity(z >= 15 ? 0.5 : z >= 13 ? 0.68 : 0.85); }
   map.on('zoomend', fadeWalk);
 
   // pointer: nearest house wins, then nearest place, then the walkability under the pointer

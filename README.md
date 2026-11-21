@@ -10,7 +10,8 @@ connection for the street map only.
 
 - **Dots** are houses whose county record shows 600+ sq ft of garage (attached,
   basement and detached added together). Bigger dot, bigger garage.
-- **Blue shading** is walkability, 0 to 100. Darker means more within walking distance.
+- **Warm shading** is walkability, 0 to 100. Pale yellow means little within walking
+  distance; red means almost everything is.
 - **Sliders** set the minimum garage space and walkability. "More filters" adds house
   size, county appraised value and lot size.
 - Click a house for its details and links to the official Walk Score, Zillow,

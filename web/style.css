@@ -14,13 +14,13 @@
   --line: #dfe3e8;
   --paper: #ffffff;
   --wash: #f2f4f6;
-  /* walkability: one hue, light to dark */
-  --walk-1: #cde2fb;
-  --walk-2: #86b6ef;
-  --walk-3: #3987e5;
-  --walk-4: #184f95;
+  /* walkability: warm ramp, pale yellow to red */
+  --walk-1: #ffe082;
+  --walk-2: #ffb347;
+  --walk-3: #f9762b;
+  --walk-4: #d81b2a;
   /* houses */
-  --house: #eb6834;
+  --house: #2a78d6;
   --focus: #256abf;
   --panel-w: 372px;
 }
